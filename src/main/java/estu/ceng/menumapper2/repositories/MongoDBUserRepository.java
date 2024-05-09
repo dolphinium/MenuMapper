@@ -35,7 +35,7 @@ public class MongoDBUserRepository implements UserRepository{
 
     @PostConstruct
     void init() {
-        userCollection = client.getDatabase("test").getCollection("persons", UserEntity.class);
+        userCollection = client.getDatabase("test").getCollection("user", UserEntity.class);
     }
 
     public long delete(String id) {
