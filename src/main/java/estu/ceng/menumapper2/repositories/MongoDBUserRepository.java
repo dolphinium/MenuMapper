@@ -7,7 +7,6 @@ import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
-import estu.ceng.menumapper2.dtos.UserDTO;
 import estu.ceng.menumapper2.models.UserEntity;
 import jakarta.annotation.PostConstruct;
 import org.bson.types.ObjectId;
