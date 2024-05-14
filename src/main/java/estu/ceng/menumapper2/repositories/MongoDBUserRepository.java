@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.mongodb.client.model.Filters.eq;
 import static com.mongodb.client.model.ReturnDocument.AFTER;
@@ -70,6 +71,21 @@ public class MongoDBUserRepository implements UserRepository{
     @Override
     public UserEntity findOneWithPhoneNumber(String phoneNumber) {
         return userCollection.find(eq("phoneNumber", phoneNumber)).first();
+    }
+
+    @Override
+    public Optional<UserEntity> findByUsername(String username) {
+        return Optional.ofNullable(userCollection.find(eq("username",username)).first());
+    }
+
+    @Override
+    public Boolean existsByUsername(String username) {
+        return false;
+    }
+
+    @Override
+    public Boolean existsByEmail(String email) {
+        return false;
     }
 
 }
