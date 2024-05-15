@@ -40,4 +40,9 @@ public class CafeServiceImpl implements CafeService{
     public CafeDTO findOneWithCafeName(String cafeName) {
         return new CafeDTO(cafeRepository.findOneWithCafeName(cafeName));
     }
+
+    @Override
+    public List<CafeDTO> findCafeWithAddress(double lon, double lat) {
+        return cafeRepository.findCafeWithAddress(lon,lat).stream().map(CafeDTO::new).toList();
+    }
 }

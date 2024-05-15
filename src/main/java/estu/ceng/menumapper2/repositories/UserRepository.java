@@ -1,7 +1,6 @@
 package estu.ceng.menumapper2.repositories;
 
 import estu.ceng.menumapper2.models.UserEntity;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;

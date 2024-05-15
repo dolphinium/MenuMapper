@@ -10,6 +10,7 @@ public interface MenuItemService {
     long delete(String menuItemName);
     MenuItemDTO update(MenuItemDTO MenuItemDTO);
     List<MenuItemDTO> findAllWithCafeName(String cafeName);
-    List<MenuItemDTO> findAllWithMenuItemName(String menuItemName);
+    List<MenuItemDTO> findAllWithMenuItemName(String menuItemName,boolean asc);
     MenuItemDTO save(MenuItemDTO MenuItemDTO);
+    List<MenuItemDTO> findAllWithCategoryName(String categoryName);
 }

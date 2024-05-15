@@ -22,9 +22,14 @@ public class MenuItemController {
         return menuItemService.save(MenuItemDTO);
     }
 
-    @GetMapping("findAll/menuItemWithName/{menuItemName}")
-    public List<MenuItemDTO> findAllWithMenuItemName(@PathVariable String menuItemName) {
-        return menuItemService.findAllWithMenuItemName(menuItemName);
+    @GetMapping("findAll/menuItemWithName/{menuItemName}/{asc}")
+    public List<MenuItemDTO> findAllWithMenuItemName(@PathVariable String menuItemName, @PathVariable boolean asc ) {
+        return menuItemService.findAllWithMenuItemName(menuItemName,asc);
+    }
+
+    @GetMapping("findAll/menuItemWithCategory/{categoryName}")
+    public List<MenuItemDTO> findAllWithCategoryName(@PathVariable String categoryName) {
+        return menuItemService.findAllWithCategoryName(categoryName);
     }
 
     @GetMapping("findAll/menuItemWithCafeName/{cafeName}")

@@ -9,6 +9,7 @@ import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
 import estu.ceng.menumapper2.models.MenuItemEntity;
 import jakarta.annotation.PostConstruct;
+import org.bson.Document;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
@@ -54,8 +55,13 @@ public class MongoDBMenuItemRepository implements MenuItemRepository{
     }
 
     @Override
-    public List<MenuItemEntity> findAllWithMenuItemName(String menuItemName) {
-        return menuItemCollection.find(eq("itemName",menuItemName)).into(new ArrayList<>());
+    public List<MenuItemEntity> findAllWithMenuItemName(String menuItemName, boolean asc) {
+        int sortOrder = asc ? 1 : -1;
+
+        // Perform the query with sorting
+        return menuItemCollection.find(eq("itemName", menuItemName))
+                .sort(new Document("price", sortOrder))
+                .into(new ArrayList<>());
     }
 
     @Override
@@ -63,5 +69,10 @@ public class MongoDBMenuItemRepository implements MenuItemRepository{
         menuItemEntity.setId(new ObjectId());
         menuItemCollection.insertOne(menuItemEntity);
         return menuItemEntity;
+    }
+
+    @Override
+    public List<MenuItemEntity> findAllWithCategoryName(String categoryName) {
+        return menuItemCollection.find(eq("category",categoryName)).into(new ArrayList<>());
     }
 }

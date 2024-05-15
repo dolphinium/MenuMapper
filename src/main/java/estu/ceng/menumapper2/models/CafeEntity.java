@@ -5,7 +5,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexType;
+import org.springframework.data.mongodb.core.index.GeoSpatialIndexed;
 
+import java.util.Arrays;
 import java.util.Objects;
 
 @Getter
@@ -15,27 +18,9 @@ import java.util.Objects;
 public class CafeEntity {
     private ObjectId id;
     private String cafeName;
-    private double location_X;
-    private double location_Y;
-    private UserEntity cafeOwner;
+    @GeoSpatialIndexed(type = GeoSpatialIndexType.GEO_2DSPHERE)
+    private double[] location; // [longitude, latitude]
+    private String ownerId;
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        CafeEntity cafeEntity = (CafeEntity) o;
-        return Objects.equals(id, cafeEntity.id) && Objects.equals(
-                cafeName, cafeEntity.cafeName) && Objects.equals(
-                cafeOwner, cafeEntity.cafeOwner);
-    }
 
-    @Override
-    public int hashCode(){
-        return Objects.hash(id,cafeName,location_X,location_Y,cafeOwner);
-    }
-
-    @Override
-    public String toString() {
-        return "Cafe{" + "id=" + id + ", cafeName='" + cafeName + '\'' + ", location='" + location_X + ","+location_Y+ '\'';
-    }
 }

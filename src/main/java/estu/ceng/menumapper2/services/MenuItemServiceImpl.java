@@ -31,13 +31,18 @@ public class MenuItemServiceImpl implements MenuItemService{
     }
 
     @Override
-    public List<MenuItemDTO> findAllWithMenuItemName(String menuItemName) {
-        return menuItemRepository.findAllWithMenuItemName(menuItemName).stream().map(MenuItemDTO::new).toList();
+    public List<MenuItemDTO> findAllWithMenuItemName(String menuItemName,boolean asc) {
+        return menuItemRepository.findAllWithMenuItemName(menuItemName, asc).stream().map(MenuItemDTO::new).toList();
     }
 
     @Override
     public MenuItemDTO save(MenuItemDTO MenuItemDTO) {
         return new MenuItemDTO(menuItemRepository.save(MenuItemDTO.toMenuItemEntity()));
+    }
+
+    @Override
+    public List<MenuItemDTO> findAllWithCategoryName(String categoryName) {
+        return menuItemRepository.findAllWithCategoryName(categoryName).stream().map(MenuItemDTO::new).toList();
     }
 }
 

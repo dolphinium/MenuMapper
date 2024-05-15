@@ -10,4 +10,5 @@ public interface CafeRepository {
     List<CafeEntity> findAll();
     CafeEntity save(CafeEntity cafeEntity);
     CafeEntity findOneWithCafeName(String cafeName);
+    List<CafeEntity> findCafeWithAddress(double lon,double lat);
 }

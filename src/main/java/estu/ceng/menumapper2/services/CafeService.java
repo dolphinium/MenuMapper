@@ -10,5 +10,6 @@ public interface CafeService {
     List<CafeDTO> findAll();
     CafeDTO save(CafeDTO CafeDTO);
     CafeDTO findOneWithCafeName(String cafeName);
+    List<CafeDTO> findCafeWithAddress(double lat, double lon);
 
 }

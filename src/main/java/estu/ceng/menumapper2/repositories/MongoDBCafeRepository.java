@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Filters.geoWithinCenterSphere;
 import static com.mongodb.client.model.ReturnDocument.AFTER;
 @Repository
 public class MongoDBCafeRepository implements CafeRepository{
@@ -24,6 +25,7 @@ public class MongoDBCafeRepository implements CafeRepository{
             .readConcern(ReadConcern.MAJORITY)
             .writeConcern(WriteConcern.MAJORITY)
             .build();
+    private static final double EARTH_RADIUS_KM = 6371.0;
     private final MongoClient client;
 
     private MongoCollection<CafeEntity> cafeCollection;
@@ -62,5 +64,15 @@ public class MongoDBCafeRepository implements CafeRepository{
     @Override
     public CafeEntity findOneWithCafeName(String cafeName) {
         return cafeCollection.find(eq("cafeName", cafeName)).first();
+    }
+
+    @Override
+    public List<CafeEntity> findCafeWithAddress(double lon, double lat) {
+        double radiusInKm = 5.0; // 1 km radius
+        double radiusInRadians = radiusInKm / EARTH_RADIUS_KM;
+
+        return cafeCollection.find(
+                geoWithinCenterSphere("location", lon,lat, radiusInRadians)
+        ).into(new ArrayList<>());
     }
 }
