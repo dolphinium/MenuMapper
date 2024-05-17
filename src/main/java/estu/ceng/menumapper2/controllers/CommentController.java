@@ -24,7 +24,7 @@ public class CommentController {
         return commentService.GetAverageCafeStars(cafeId);
     }
 
-    @GetMapping("get/commentsWithCafeName/{cafeId}")
+    @GetMapping("get/commentsWithCafeId/{cafeId}")
     public List<CommentDTO> getCommentsWithCafeId(@PathVariable String cafeId) {
         return commentService.findAllCafeComments(cafeId);
     }

@@ -7,15 +7,21 @@ import com.mongodb.WriteConcern;
 import com.mongodb.client.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.model.FindOneAndReplaceOptions;
+import estu.ceng.menumapper2.dtos.AverageStarsDTO;
 import estu.ceng.menumapper2.models.CommentEntity;
 import jakarta.annotation.PostConstruct;
+import org.bson.conversions.Bson;
 import org.bson.types.ObjectId;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
+import static com.mongodb.client.model.Accumulators.avg;
+import static com.mongodb.client.model.Aggregates.*;
 import static com.mongodb.client.model.Filters.eq;
+import static com.mongodb.client.model.Projections.excludeId;
 import static com.mongodb.client.model.ReturnDocument.AFTER;
 
 @Repository
@@ -67,7 +73,10 @@ public class MongoDBCommentRepository implements CommentRepository{
 
     @Override
     public double GetAverageCafeStars(String cafeId) {
-        // TODO: WRITE AGGREGATION PIPELINE FOR GETTING AVERAGE CAFE STARS
-        return 0;
+        List<Bson> pipeline = List.of(
+                match(eq("cafeId", cafeId)),
+                group("$cafeId", avg("averageStars", "$score"))
+        );
+        return Objects.requireNonNull(commentCollection.aggregate(pipeline, AverageStarsDTO.class).first()).averageStars();
     }
 }
