@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,11 +21,13 @@ public class UserController {
         this.userService = userService;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("get/users")
     public List<UserDTO> getUsers() {
         return userService.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("get/userWithId/{id}")
     public ResponseEntity<UserDTO> getUser(@PathVariable String id) {
         UserDTO UserDTO = userService.findOne(id);
@@ -32,17 +35,20 @@ public class UserController {
         return ResponseEntity.ok(UserDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("add/user")
     @ResponseStatus(HttpStatus.CREATED)
     public UserDTO postUser(@RequestBody UserDTO UserDTO) {
         return userService.save(UserDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("delete/user/{phoneNumber}")
     public Long deleteUser(@PathVariable String phoneNumber) {
         return userService.delete(phoneNumber);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("get/userWithPhoneNumber/{phoneNumber}")
     public ResponseEntity<UserDTO> getUserWithPhoneNumber(@PathVariable String phoneNumber) {
         UserDTO UserDTO = userService.findOneWithPhoneNumber(phoneNumber);
@@ -50,6 +56,7 @@ public class UserController {
         return ResponseEntity.ok(UserDTO);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/user")
     public UserDTO updateUser(@RequestBody UserDTO UserDTO) {
         return userService.update(UserDTO);

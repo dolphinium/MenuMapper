@@ -24,16 +24,19 @@ public class CafeController {
         return cafeService.save(CafeDTO);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('CAFE_HOLDER') or hasRole('ADMIN')")
     @GetMapping("findAll/cafe")
     public List<CafeDTO> getAll() {
         return cafeService.findAll();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("delete/cafe/{cafeName}")
     public Long deleteCafe(@PathVariable String cafeName) {
         return cafeService.delete(cafeName);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('CAFE_HOLDER') or hasRole('ADMIN')")
     @GetMapping("get/cafeWithName/{cafeName}")
     public ResponseEntity<CafeDTO> getCafeWithName(@PathVariable String cafeName) {
         CafeDTO CafeDTO = cafeService.findOneWithCafeName(cafeName);
@@ -41,6 +44,7 @@ public class CafeController {
         return ResponseEntity.ok(CafeDTO);
     }
 
+    @PreAuthorize("hasRole('USER') or hasRole('CAFE_HOLDER') or hasRole('ADMIN')")
     @GetMapping("get/cafeWithAddress/{lon}/{lat}")
     public ResponseEntity<List<CafeDTO>> getCafeWithAddress(@PathVariable double lon, @PathVariable double lat) {
         List<CafeDTO> cafesInArea = cafeService.findCafeWithAddress(lon,lat);
@@ -48,11 +52,11 @@ public class CafeController {
         return ResponseEntity.ok(cafesInArea);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PutMapping("/update/cafe")
     public CafeDTO updateCafe(@RequestBody CafeDTO CafeDTO) {
         return cafeService.update(CafeDTO);
     }
-
 
 
 }
